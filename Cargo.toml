@@ -7,3 +7,4 @@ edition = "2024"
 eframe = "*"
 egui = "*"
 egui_extras = {version = "*", features = ["all_loaders"]}
+image = "*"
