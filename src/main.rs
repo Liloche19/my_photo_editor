@@ -1,29 +1,36 @@
 use eframe::{NativeOptions, egui};
 
 struct MyApp {
-    label: String,
-    value: i32,
+    contrast: f32,
 }
 
 impl Default for MyApp {
     fn default() -> Self {
-        Self {
-            label: "My_photo_editor".to_owned(),
-            value: 0,
-        }
+        Self { contrast: 0.0 }
     }
 }
 
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
+            ctx.set_pixels_per_point(1.2f32);
             ui.heading("My_photo_editor");
-            ui.label(&self.label);
-            ui.add(egui::Slider::new(&mut self.value, 0..=100).text("Contrast"));
-            ui.label(format!("Actual value : {}", self.value));
-            if ui.button("Click me !").clicked() {
-                self.value += 1;
-            }
+            ui.label("Contrast");
+            ui.add(egui::Slider::new(&mut self.contrast, -10f32..=10f32));
+            ui.horizontal(|ui| {
+                let button_decrease = ui.button("➖");
+                let button_reset = ui.button("Reset");
+                let button_increase = ui.button("➕");
+                if button_reset.clicked() {
+                    self.contrast = 0.0;
+                }
+                if button_decrease.clicked() {
+                    self.contrast -= 0.1;
+                }
+                if button_increase.clicked() {
+                    self.contrast += 0.1;
+                }
+            })
         });
     }
 }
